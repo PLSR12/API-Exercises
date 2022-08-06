@@ -18,9 +18,11 @@ routes.post('/articles', upload.single('file'), ArticlesController.store)
 routes.get('/articles', ArticlesController.index)
 routes.get('/article/:id', OneArticleController.index)
 routes.put('/articles/:id', upload.single('file'), ArticlesController.update)
+routes.delete('/article/:id', ArticlesController.delete)
 
 routes.post('/category', upload.single('file'), CategoryController.store)
 routes.get('/category', CategoryController.index)
 routes.put('/category/:id', upload.single('file'), CategoryController.update)
+routes.delete('/category/:id', CategoryController.delete)
 
 export default routes
