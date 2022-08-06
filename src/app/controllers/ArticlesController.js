@@ -39,14 +39,13 @@ class ArticleController {
         {
           model: Category,
           as: 'category',
-          attributes: ['id', 'name'],
+          attributes: ['id', 'name', 'url', 'path'],
         },
       ],
     })
 
     return response.json(articles)
   }
-  F
 
   async update(request, response) {
     const schema = Yup.object().shape({
@@ -92,6 +91,21 @@ class ArticleController {
       { where: { id } }
     )
     return response.json({ title, preview, category_id })
+  }
+
+  async delete(request, response) {
+    const id = request.params.id
+
+    const articleId = await Articles.findByPk(id)
+
+    if (!articleId) {
+      return response.status(401).json({
+        error: 'articles not found, verify your articles Id is correct.',
+      })
+    } else {
+      await Articles.destroy({ where: { id } })
+      response.status(200).json({ message: 'Deleted successfully' })
+    }
   }
 }
 
