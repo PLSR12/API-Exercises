@@ -47,6 +47,20 @@ class ArticleController {
     return response.json(articles)
   }
 
+  async show(request, response) {
+    const { id } = request.params
+
+    const articleId = await Articles.findByPk(id)
+
+    if (!articleId) {
+      return response.status(401).json({
+        error: 'articles not found, verify your articles Id is correct.',
+      })
+    }
+
+    return response.json(articleId)
+  }
+
   async update(request, response) {
     const schema = Yup.object().shape({
       title: Yup.string().required(),
