@@ -6,17 +6,26 @@ import multerConfig from './config/multer'
 const upload = multer(multerConfig)
 const routes = new Router()
 
+import SessionController from './app/controllers/SessionController'
+import UserController from './app/controllers/UserController'
 import ArticlesController from './app/controllers/ArticlesController'
 import CategoryController from './app/controllers/CategoryController'
-import OneArticleController from './app/controllers/OneArticleController'
+
+import authMiddleware from './app/middlewares/auth'
 
 routes.get('/', (req, res) => {
   res.status(200).json({ message: 'Ok' })
 })
 
+routes.post('/users', UserController.store)
+
+routes.post('/sessions', SessionController.store)
+
+routes.use(authMiddleware)
+
 routes.post('/articles', upload.single('file'), ArticlesController.store)
 routes.get('/articles', ArticlesController.index)
-routes.get('/article/:id', OneArticleController.index)
+routes.get('/article/:id', ArticlesController.show)
 routes.put('/articles/:id', upload.single('file'), ArticlesController.update)
 routes.delete('/article/:id', ArticlesController.delete)
 
