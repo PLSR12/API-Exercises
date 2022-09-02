@@ -33,7 +33,7 @@ Na parte da tela do administrador , foi utilizado a biblioteca MUI para o uso do
 
 Made with ♥ by Pedro Dos Santos :wave: [Get in touch!](https://www.linkedin.com/in/pedro-lucas-dos-santos/)
 
-## ROUTES
+## :house: Routes
 
 ### get `/articles`
 
