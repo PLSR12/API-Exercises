@@ -50,7 +50,15 @@ class ArticleController {
   async show(request, response) {
     const { id } = request.params
 
-    const articleId = await Articles.findByPk(id)
+    const articleId = await Articles.findByPk(id, {
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+      ],
+    })
 
     if (!articleId) {
       return response.status(401).json({
