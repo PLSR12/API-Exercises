@@ -2,28 +2,28 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('articles', {
+    await queryInterface.createTable('exercises', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      title: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      preview: {
+      description: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      content: {
+      objective: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      path: {
+      url: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -37,6 +37,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('articles')
+    await queryInterface.dropTable('exercises')
   },
 }

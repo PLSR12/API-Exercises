@@ -1,13 +1,14 @@
 import * as Yup from 'yup'
-import Articles from '../models/Articles'
+import Exercises from '../models/Exercises'
 import Category from '../models/Category'
 
-class ArticleController {
+class ExerciseController {
   async store(request, response) {
     const schema = Yup.object().shape({
-      title: Yup.string().required(),
-      preview: Yup.string().required(),
-      content: Yup.string().required(),
+      name: Yup.string().required(),
+      description: Yup.string().required(),
+      objective: Yup.string().required(),
+      url: Yup.string(),
       category_id: Yup.number().required(),
     })
 
@@ -19,22 +20,21 @@ class ArticleController {
       })
     }
 
-    const { filename: path } = request.file
-    const { title, preview, content, category_id } = request.body
+    const { name, description, objective, url, category_id } = request.body
 
-    const article = await Articles.create({
-      title,
-      preview,
-      content,
+    const exercise = await Exercises.create({
+      name,
+      description,
+      objective,
+      url,
       category_id,
-      path,
     })
 
-    return response.json(article)
+    return response.json(exercise)
   }
 
   async index(request, response) {
-    const articles = await Articles.findAll({
+    const exercises = await Exercises.findAll({
       include: [
         {
           model: Category,
@@ -44,13 +44,13 @@ class ArticleController {
       ],
     })
 
-    return response.json(articles)
+    return response.json(exercises)
   }
 
   async show(request, response) {
     const { id } = request.params
 
-    const articleId = await Articles.findByPk(id, {
+    const exerciseId = await Exercises.findByPk(id, {
       include: [
         {
           model: Category,
@@ -60,20 +60,21 @@ class ArticleController {
       ],
     })
 
-    if (!articleId) {
+    if (!exerciseId) {
       return response.status(401).json({
-        error: 'articles not found, verify your articles Id is correct.',
+        error: 'Exercises not found, verify your Exercises Id is correct.',
       })
     }
 
-    return response.json(articleId)
+    return response.json(exerciseId)
   }
 
   async update(request, response) {
     const schema = Yup.object().shape({
-      title: Yup.string().required(),
-      preview: Yup.string().required(),
-      content: Yup.string().required(),
+      name: Yup.string().required(),
+      description: Yup.string().required(),
+      objective: Yup.string().required(),
+      url: Yup.string(),
       category_id: Yup.number().required(),
     })
 
@@ -87,48 +88,44 @@ class ArticleController {
 
     const { id } = request.params
 
-    const articleId = await Articles.findByPk(id)
+    const exerciseId = await Exercises.findByPk(id)
 
-    if (!articleId) {
+    if (!exerciseId) {
       return response.status(401).json({
-        error: 'articles not found, verify your articles Id is correct.',
+        error: 'Exercises not found, verify your Exercises Id is correct.',
       })
     }
 
-    let path
-    if (request.file) {
-      path = request.file.filename
-    }
+    const { name, description, objective, url, category_id } = request.body
 
-    const { title, preview, content, category_id } = request.body
-
-    const article = await Articles.update(
+    const exercise = await Exercises.update(
       {
-        title,
-        preview,
-        content,
+        name,
+        description,
+        objective,
+        url,
         category_id,
       },
 
       { where: { id } }
     )
-    return response.json({ title, preview, category_id })
+    return response.json(exercise)
   }
 
   async delete(request, response) {
     const id = request.params.id
 
-    const articleId = await Articles.findByPk(id)
+    const exerciseId = await Exercises.findByPk(id)
 
-    if (!articleId) {
+    if (!exerciseId) {
       return response.status(401).json({
-        error: 'articles not found, verify your articles Id is correct.',
+        error: 'Exercises not found, verify your Exercises Id is correct.',
       })
     } else {
-      await Articles.destroy({ where: { id } })
+      await Exercises.destroy({ where: { id } })
       response.status(200).json({ message: 'Deleted successfully' })
     }
   }
 }
 
-export default new ArticleController()
+export default new ExerciseController()
