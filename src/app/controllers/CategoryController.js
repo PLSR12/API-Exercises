@@ -17,8 +17,6 @@ class CategoryController {
 
     const { name } = request.body
 
-    const { filename: path } = request.file
-
     const categoryExists = await Category.findOne({
       where: {
         name,
@@ -33,7 +31,6 @@ class CategoryController {
 
     const { id } = await Category.create({
       name,
-      path,
     })
 
     return response.status(201).json({
@@ -78,21 +75,15 @@ class CategoryController {
         })
       }
 
-      let path
-      if (request.file) {
-        path = request.file.filename
-      }
-
       await Category.update(
         {
           name,
-          path,
         },
 
         { where: { id } }
       )
 
-      return response.status(200).json({ name, path })
+      return response.status(200).json({ name })
     } catch (err) {}
   }
 
