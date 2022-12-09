@@ -8,7 +8,7 @@ class ExerciseController {
       name: Yup.string().required(),
       description: Yup.string().required(),
       objective: Yup.string().required(),
-      url: Yup.string(),
+      linkvideo: Yup.string(),
       category_id: Yup.number().required(),
     })
 
@@ -20,13 +20,17 @@ class ExerciseController {
       })
     }
 
-    const { name, description, objective, url, category_id } = request.body
+    const { name, description, objective, linkvideo, category_id } =
+      request.body
+
+    const { filename: path } = request.file
 
     const exercise = await Exercises.create({
       name,
       description,
       objective,
-      url,
+      linkvideo,
+      path,
       category_id,
     })
 
@@ -39,7 +43,7 @@ class ExerciseController {
         {
           model: Category,
           as: 'category',
-          attributes: ['id', 'name', 'url', 'path'],
+          attributes: ['id', 'name'],
         },
       ],
     })
@@ -74,7 +78,7 @@ class ExerciseController {
       name: Yup.string().required(),
       description: Yup.string().required(),
       objective: Yup.string().required(),
-      url: Yup.string(),
+      linkvideo: Yup.string(),
       category_id: Yup.number().required(),
     })
 
@@ -84,6 +88,11 @@ class ExerciseController {
       return response.status(400).json({
         error: err.errors,
       })
+    }
+
+    let path
+    if (request.file) {
+      path = request.file.filename
     }
 
     const { id } = request.params
@@ -96,15 +105,17 @@ class ExerciseController {
       })
     }
 
-    const { name, description, objective, url, category_id } = request.body
+    const { name, description, objective, linkvideo, category_id } =
+      request.body
 
     const exercise = await Exercises.update(
       {
         name,
         description,
         objective,
-        url,
+        linkvideo,
         category_id,
+        path,
       },
 
       { where: { id } }

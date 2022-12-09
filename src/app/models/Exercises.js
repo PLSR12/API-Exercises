@@ -7,7 +7,14 @@ class Exercises extends Model {
         name: Sequelize.STRING,
         description: Sequelize.STRING,
         objective: Sequelize.STRING,
-        url: Sequelize.STRING,
+        path: Sequelize.STRING,
+        linkvideo: Sequelize.STRING,
+        url: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return `http://localhost:3100/exercise-file/${this.path}`
+          },
+        },
       },
 
       {
