@@ -21,9 +21,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      url: {
+      linkvideo: {
         type: Sequelize.STRING,
         allowNull: true,
+      },
+      path: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
