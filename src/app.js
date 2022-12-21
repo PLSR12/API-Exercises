@@ -18,7 +18,7 @@ class App {
     this.app.use(express.json())
 
     this.app.use(
-      '/category-file',
+      '/exercise-file',
       express.static(resolve(__dirname, '..', 'uploads'))
     )
   }
