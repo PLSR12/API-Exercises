@@ -83,7 +83,7 @@ class CategoryController {
         { where: { id } }
       )
 
-      return response.status(200).json({ name })
+      return response.status(204).json({ name })
     } catch (err) {}
   }
 
@@ -98,7 +98,7 @@ class CategoryController {
       })
     } else {
       await Category.destroy({ where: { id } })
-      response.status(200).json({ message: 'Deleted successfully' })
+      response.status(204).json({ message: 'Deleted successfully' })
     }
   }
 }

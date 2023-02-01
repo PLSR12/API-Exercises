@@ -120,7 +120,7 @@ class ExerciseController {
 
       { where: { id } }
     )
-    return response.json(exercise)
+    return response.status(204).json({ name })
   }
 
   async delete(request, response) {
@@ -134,7 +134,7 @@ class ExerciseController {
       })
     } else {
       await Exercises.destroy({ where: { id } })
-      response.status(200).json({ message: 'Deleted successfully' })
+      response.status(204).json({ message: 'Deleted successfully' })
     }
   }
 }
